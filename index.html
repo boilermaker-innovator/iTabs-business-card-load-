@@ -632,7 +632,7 @@ async function submitBrief() {
     return;
   }
 
-  const btn = document.querySelector('#screen3 .btn-primary');
+  const btn = document.querySelector('#screen35 .btn-primary');
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
@@ -645,22 +645,25 @@ async function submitBrief() {
     services: document.getElementById('f_services').value.trim()
   };
 
-  // TODO: Replace with your Make.com webhook URL
   const WEBHOOK_URL = 'https://hook.eu2.make.com/878zvhl1dn0gayi94qzyjjq13e3wf2i4';
 
   try {
-    await fetch(WEBHOOK_URL, {
+    const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(brief)
     });
-    // console.log('Brief ready to send:', brief);
-    await new Promise(r => setTimeout(r, 800)); // Simulate send
+
+    if (!response.ok) {
+      throw new Error('Webhook returned ' + response.status);
+    }
+
     show('screen4');
   } catch(err) {
+    console.error('Submit error:', err);
     btn.disabled = false;
-    btn.textContent = '⚡ Build My Free Widget →';
-    alert('Send failed. Try again.');
+    btn.textContent = '⚡ Yes — Build My Widget →';
+    alert('Send failed: ' + err.message + '\n\nCheck console for details.');
   }
 }
 </script>
