@@ -62,11 +62,9 @@
     margin-bottom: 28px;
   }
 
-  /* SCREEN MANAGEMENT */
   .screen { width: 100%; max-width: 420px; display: none; flex-direction: column; gap: 16px; }
   .screen.active { display: flex; }
 
-  /* Upload zone */
   .upload-zone {
     border: 2px dashed var(--border);
     border-radius: 20px;
@@ -84,7 +82,6 @@
   .upload-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
   .upload-sub { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
 
-  /* Camera button */
   .cam-btn {
     width: 100%;
     padding: 14px;
@@ -103,7 +100,6 @@
   }
   .cam-btn:hover { border-color: var(--accent); }
 
-  /* OR divider */
   .divider {
     display: flex;
     align-items: center;
@@ -118,7 +114,6 @@
     background: var(--border);
   }
 
-  /* Preview */
   #previewImg {
     width: 100%;
     border-radius: 14px;
@@ -128,7 +123,6 @@
     display: none;
   }
 
-  /* Loading */
   .loading-box {
     background: var(--card);
     border: 1px solid var(--border);
@@ -149,7 +143,6 @@
   .loading-box p { color: var(--muted); font-size: 0.9rem; }
   .loading-box strong { color: var(--text); display: block; font-family: 'Syne', sans-serif; font-size: 1rem; margin-bottom: 6px; }
 
-  /* Form */
   .form-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -179,7 +172,6 @@
   .field input:focus, .field textarea:focus { border-color: var(--accent); }
   .field textarea { resize: none; height: 70px; line-height: 1.5; }
 
-  /* Confidence badges */
   .conf-badge {
     display: inline-block;
     font-size: 0.65rem;
@@ -192,7 +184,6 @@
   .conf-high { background: #1a3a2a; color: var(--green); }
   .conf-low { background: #3a1a1a; color: var(--accent2); }
 
-  /* Buttons */
   .btn-primary {
     width: 100%;
     padding: 14px;
@@ -224,7 +215,6 @@
   }
   .btn-ghost:hover { border-color: var(--accent); color: var(--text); }
 
-  /* Success */
   .success-box {
     background: #0d1f15;
     border: 1px solid var(--green);
@@ -236,14 +226,12 @@
   .success-box h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; margin-bottom: 8px; color: var(--green); }
   .success-box p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
 
-  /* Mockup widget */
   .mockup-widget {
     background: linear-gradient(145deg, #1a1a2e, #16162a);
     border: 1px solid var(--accent);
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 0 40px #6c63ff22;
-    animation: fadeUp 0.4s ease forwards;
   }
   .mw-header {
     background: linear-gradient(135deg, var(--accent), #9b6cff);
@@ -319,7 +307,6 @@
     line-height: 1.5;
   }
 
-  /* Error */
   .error-msg {
     background: #2a1010;
     border: 1px solid var(--accent2);
@@ -445,7 +432,6 @@
 </div>
 
 <script>
-// ---- SCREEN MANAGEMENT ----
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -475,7 +461,6 @@ function clearForm() {
   });
 }
 
-// ---- DEMO MODE ----
 function loadDemo() {
   document.getElementById('f_business').value = 'Smith Plumbing';
   document.getElementById('f_trade').value = 'Plumber';
@@ -493,7 +478,6 @@ function loadDemo() {
   show('screen3');
 }
 
-// ---- FILE HANDLING ----
 function handleFile(file) {
   if (!file) return;
   const reader = new FileReader();
@@ -506,7 +490,6 @@ function handleFile(file) {
   reader.readAsDataURL(file);
 }
 
-// Drag and drop
 const dz = document.getElementById('dropZone');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
@@ -516,7 +499,6 @@ dz.addEventListener('drop', e => {
   if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
 });
 
-// ---- CLAUDE VISION EXTRACT ----
 async function extractFromCard(dataUrl) {
   show('screen2');
   document.getElementById('errorMsg').style.display = 'none';
@@ -564,14 +546,12 @@ Return ONLY the JSON object. No explanation.`;
     const clean = text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
 
-    // Populate form
     document.getElementById('f_business').value = parsed.business || '';
     document.getElementById('f_trade').value = parsed.trade || '';
     document.getElementById('f_suburb').value = parsed.suburb || '';
     document.getElementById('f_phone').value = parsed.phone || '';
     document.getElementById('f_services').value = parsed.services || '';
 
-    // Show confidence badges
     const conf = parsed.confidence || {};
     ['business','trade','suburb','phone','services'].forEach(f => {
       const badge = document.getElementById('badge_' + f);
@@ -621,7 +601,6 @@ function showPreview() {
   show('screen35');
 }
 
-// ---- SUBMIT ----
 async function submitBrief() {
   const business = document.getElementById('f_business').value.trim();
   const trade = document.getElementById('f_trade').value.trim();
